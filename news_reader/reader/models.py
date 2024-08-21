@@ -21,6 +21,10 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    STATUS = (
+        (True, "Опубликовано"),
+        (False, "Не опубликовано")
+    )
     class Meta:
         managed = False
         db_table = "posts_post"
@@ -30,3 +34,4 @@ class Post(models.Model):
     pub_date = models.DateTimeField(auto_now_add = True,verbose_name="Дата публикации", null = True, blank = True)
     tags = models.ManyToManyField(Tag, verbose_name="Теги")
     category = models.ForeignKey(Category, on_delete = models.DO_NOTHING, verbose_name="Категория")
+    status = models.BooleanField(choices = STATUS,default = True, verbose_name="Статус")

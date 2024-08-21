@@ -16,7 +16,7 @@ class PostViewSet(viewsets.ModelViewSet):
     lookup_field = 'slug'
     http_method_names = ['get']
     def get_queryset(self):
-        queryset = Post.objects.all().order_by('-pub_date')
+        queryset = Post.objects.filter(status = True).order_by('-pub_date')
 
         tags = self.request.query_params.getlist('tags', None)
         category = self.request.query_params.get('category', None)

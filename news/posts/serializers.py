@@ -11,7 +11,13 @@ class PostSerializer(serializers.ModelSerializer):
             "tags",
             "category",
             "slug",
-            "pub_date"
+            "status",
+            "pub_date",
+            "edit_date"
+        )
+        read_only_fields = (
+            "pub_date",
+            "edit_date"
         )
     def create(self, validated_data):
         validated_data['author'] = self.context['request'].user
