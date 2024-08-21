@@ -4,24 +4,19 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import status, viewsets
 
+
 from .models import Post
 from .serializers import PostSerializer
-from .permissions import IsOwnerOrReadOnly
+
 # Create your views here.
 
 class PostViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsOwnerOrReadOnly,)
+    
     serializer_class = PostSerializer
     lookup_field = 'slug'
-
+    http_method_names = ['get']
     def get_queryset(self):
-        user = self.request.user
         queryset = Post.objects.all().order_by('-pub_date')
-        
-        if user.is_authenticated:
-            queryset = queryset.filter(Q(author=user) | Q(status=True))
-        else:
-            queryset = queryset.filter(status=True)
 
         tags = self.request.query_params.getlist('tags', None)
         category = self.request.query_params.get('category', None)
@@ -60,5 +55,3 @@ class PostViewSet(viewsets.ModelViewSet):
         else:
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
-
-    
