@@ -7,7 +7,6 @@ from rest_framework import status, viewsets
 from .models import Post
 from .serializers import PostSerializer
 from .permissions import IsOwnerOrReadOnly
-# Create your views here.
 
 class PostViewSet(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly,)
